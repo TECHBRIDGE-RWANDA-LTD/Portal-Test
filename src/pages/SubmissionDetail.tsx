@@ -450,7 +450,7 @@ export const SubmissionDetail: React.FC = () => {
                     onChange={(e) => {
                       setDocName(e.target.value);
                       if (e.target.value && !docUrl) {
-                        setDocUrl(`http://localhost:8008/media/documents/${e.target.value}`);
+                        setDocUrl(`http;//clever-playfulness-production-06cd.up.railway.app/media/documents/${e.target.value}`);
                       }
                     }}
                   />
