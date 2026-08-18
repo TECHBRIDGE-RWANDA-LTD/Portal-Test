@@ -31,10 +31,7 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
     }
   };
 
-  const handleFillDemo = () => {
-    setUsername('automation_user');
-    setPassword('Password123!');
-  };
+  
 
   return (
     <div style={{ maxWidth: '420px', margin: '4rem auto', padding: '0 1rem' }}>
@@ -130,23 +127,7 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
           borderTop: '1px solid #f1f5f9',
           textAlign: 'center'
         }}>
-          <button
-            onClick={handleFillDemo}
-            type="button"
-            style={{
-              background: '#f8fafc',
-              border: '1px solid #cbd5e1',
-              padding: '6px 12px',
-              borderRadius: '4px',
-              fontSize: '0.8rem',
-              color: '#0284c7',
-              cursor: 'pointer',
-              fontWeight: 600,
-              marginBottom: '1rem'
-            }}
-          >
-            Autofill Demo Credentials
-          </button>
+         
           
           <p style={{ fontSize: '0.85rem', color: '#64748b' }}>
             Don't have an account? <Link to="/signup" style={{ color: '#0284c7', fontWeight: 600 }}>Create an account</Link>

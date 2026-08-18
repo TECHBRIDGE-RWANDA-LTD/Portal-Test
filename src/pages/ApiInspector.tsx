@@ -11,7 +11,7 @@ export const ApiInspector: React.FC = () => {
       title: 'Python (requests) - Submit Permit Request',
       code: `import requests
 
-url = "http;//clever-playfulness-production-06cd.up.railway.app/api/permits/"
+url = "https://clever-playfulness-production-06cd.up.railway.app/api/permits/"
 payload = {
     "airline_operator": "TANZANIA GOVERNMENT FLIGHT AGENCY.",
     "aircraft_registration": "5HONE",
@@ -38,7 +38,7 @@ print("Status:", data["status"])`
       code: `import requests
 
 reference_code = "RCAA-2026-149634"
-url = f"http;//clever-playfulness-production-06cd.up.railway.app/api/permits/?search={reference_code}"
+url = f"https://clever-playfulness-production-06cd.up.railway.app/api/permits/?search={reference_code}"
 
 res = requests.get(url).json()
 if res:
@@ -70,7 +70,7 @@ if res:
     setLoading(true);
     setTestResult(null);
     try {
-      const res = await fetch(`http;//clever-playfulness-production-06cd.up.railway.app/api/${endpoint}`);
+      const res = await fetch(`https://clever-playfulness-production-06cd.up.railway.app/api/${endpoint}`);
       const data = await res.json();
       setTestResult(JSON.stringify(data, null, 2));
     } catch (err: any) {
