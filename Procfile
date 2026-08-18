@@ -1,1 +1,1 @@
-web: python manage.py migrate --noinput && python seed_data.py && gunicorn rcaa_backend.wsgi:application
+web: python manage.py migrate --noinput && python seed_data.py && gunicorn --bind 0.0.0.0:${PORT:-8000} rcaa_backend.wsgi:application
