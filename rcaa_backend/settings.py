@@ -29,11 +29,7 @@ SECRET_KEY = "django-insecure-5@arz3u8-+$@i_xq_9b8&4bg-xfymvn&!0027ve*0y7*6*$3hl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-                 
-    "https://portal-test-production.up.railway.app",
-                 
-]
+ALLOWED_HOSTS = ["*", ".railway.app", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -96,7 +92,10 @@ WSGI_APPLICATION = "rcaa_backend.wsgi.application"
 
 DATABASES = {
     "default": dj_database_url.config(
-        default=os.environ.get("DATABASE_URL")
+        default=os.environ.get(
+            "DATABASE_URL",
+            f"postgresql://postgres:Mugiraneza%40123@localhost:5432/RCAA"
+        )
     )
 }
 
