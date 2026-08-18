@@ -1,0 +1,1 @@
+web: gunicorn rcaa_backend.wsgi:application
