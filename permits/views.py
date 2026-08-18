@@ -174,7 +174,7 @@ class DocumentUploadView(APIView):
             for chunk in file_obj.chunks():
                 destination.write(chunk)
 
-        doc_url = f"http://localhost:8008/media/documents/{file_obj.name}"
+        doc_url = f"http;//clever-playfulness-production-06cd.up.railway.app/media/documents/{file_obj.name}"
         return Response({
             'message': 'Document uploaded successfully',
             'attached_document_name': file_obj.name,
