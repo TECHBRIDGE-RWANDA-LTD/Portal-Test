@@ -47,3 +47,4 @@ media/documents/*
 # IDEs
 .vscode/
 .idea/
+.seed_data.py
