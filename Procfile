@@ -1,1 +1,1 @@
-web: gunicorn rcaa_backend.wsgi:application
+web: python manage.py migrate --noinput && python seed_data.py && gunicorn rcaa_backend.wsgi:application
