@@ -1,6 +1,6 @@
 import type { ClearanceRequest, ClearanceFormData, ClearanceStats, User } from '../types';
 
-const API_BASE_URL = 'http://localhost:8008/api';
+const API_BASE_URL = 'https://clever-playfulness-production-06cd.up.railway.app/api';
 
 export const apiService = {
   // Auth Services
