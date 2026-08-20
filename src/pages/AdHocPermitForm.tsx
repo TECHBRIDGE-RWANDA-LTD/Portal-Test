@@ -40,6 +40,28 @@ export const AdHocPermitForm: React.FC = () => {
     setFormData(prev => ({ ...prev, [name]: checked }));
   };
 
+  const handleResetForm = () => {
+    setFormData({
+      airline_operator: '',
+      aircraft_registration: '',
+      has_electronic_warfare: false,
+      electronic_warfare_details: '',
+      has_aircraft_modifications: false,
+      aircraft_modifications_details: '',
+      clearance_category: '',
+      clearance_type: '',
+      purpose_of_flight: '',
+      aircraft_callsign: '',
+      pilot_in_command: '',
+      first_officer: '',
+      entry_point: '',
+      exit_point: '',
+      flight_date: '',
+      passengers_count: 0,
+      cargo_details: ''
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -56,73 +78,9 @@ export const AdHocPermitForm: React.FC = () => {
     }
   };
 
-  const handleQuickAutofill = (type: 'VIP' | 'CARGO' | 'COMMERCIAL') => {
-    if (type === 'VIP') {
-      setFormData({
-        airline_operator: 'TANZANIA GOVERNMENT FLIGHT AGENCY.',
-        aircraft_registration: '5HONE',
-        has_electronic_warfare: false,
-        electronic_warfare_details: '',
-        has_aircraft_modifications: false,
-        aircraft_modifications_details: '',
-        clearance_category: 'Overflight',
-        clearance_type: 'Ad-Hoc',
-        purpose_of_flight: 'VIP Executive Transport',
-        aircraft_callsign: 'TGFA01',
-        pilot_in_command: 'Capt. Joseph Mukasa',
-        first_officer: 'F/O Sarah Hassan',
-        entry_point: 'OKIMO',
-        exit_point: 'VAKIS',
-        flight_date: new Date().toISOString().split('T')[0],
-        passengers_count: 8,
-        cargo_details: 'VIP Luggage'
-      });
-    } else if (type === 'CARGO') {
-      setFormData({
-        airline_operator: 'ETHIOPIAN AIRLINES CARGO',
-        aircraft_registration: 'ET-AVT',
-        has_electronic_warfare: false,
-        electronic_warfare_details: '',
-        has_aircraft_modifications: true,
-        aircraft_modifications_details: 'Enhanced high-altitude cargo door locks',
-        clearance_category: 'Landing & Takeoff',
-        clearance_type: 'Single Flight',
-        purpose_of_flight: 'Medical Cargo & Disaster Relief',
-        aircraft_callsign: 'ETH884',
-        pilot_in_command: 'Capt. Abiy Wolde',
-        first_officer: 'F/O Tigist Alemu',
-        entry_point: 'KGL',
-        exit_point: 'NBO',
-        flight_date: new Date().toISOString().split('T')[0],
-        passengers_count: 3,
-        cargo_details: 'Pharmaceuticals & Vaccines (18 Tons)'
-      });
-    } else {
-      setFormData({
-        airline_operator: 'RWANDAIR',
-        aircraft_registration: '9XR-WP',
-        has_electronic_warfare: false,
-        electronic_warfare_details: '',
-        has_aircraft_modifications: false,
-        aircraft_modifications_details: '',
-        clearance_category: 'Overflight',
-        clearance_type: 'Block Permit',
-        purpose_of_flight: 'Commercial Passenger Flight RWB302',
-        aircraft_callsign: 'RWB302',
-        pilot_in_command: 'Capt. Paul Kagabo',
-        first_officer: 'F/O Alice Umutoni',
-        entry_point: 'BUJ',
-        exit_point: 'EBB',
-        flight_date: new Date().toISOString().split('T')[0],
-        passengers_count: 140,
-        cargo_details: 'Standard Passenger Baggage'
-      });
-    }
-  };
-
   return (
     <div className="container">
-      {/* Quick Test Toolbar */}
+      {/* Form Action Toolbar */}
       <div style={{
         background: '#ffffff',
         borderRadius: '6px',
@@ -137,31 +95,15 @@ export const AdHocPermitForm: React.FC = () => {
         boxShadow: 'var(--shadow-sm)'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#0f172a', fontWeight: 600, fontSize: '0.88rem' }}>
-          <span>Automation Test:</span>
+          <span>Enter details below to submit a new clearance application</span>
         </div>
-        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-          <button
-            type="button"
-            onClick={() => handleQuickAutofill('VIP')}
-            style={{ padding: '4px 10px', fontSize: '0.8rem', background: '#e0f2fe', color: '#0369a1', border: '1px solid #7dd3fc', borderRadius: '4px', cursor: 'pointer', fontWeight: 600 }}
-          >
-          Overflight
-          </button>
-          <button
-            type="button"
-            onClick={() => handleQuickAutofill('CARGO')}
-            style={{ padding: '4px 10px', fontSize: '0.8rem', background: '#fef3c7', color: '#b45309', border: '1px solid #fde68a', borderRadius: '4px', cursor: 'pointer', fontWeight: 600 }}
-          >
-            Landing
-          </button>
-          <button
-            type="button"
-            onClick={() => handleQuickAutofill('COMMERCIAL')}
-            style={{ padding: '4px 10px', fontSize: '0.8rem', background: '#d1fae5', color: '#047857', border: '1px solid #a7f3d0', borderRadius: '4px', cursor: 'pointer', fontWeight: 600 }}
-          >
-            Commercial Flight
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={handleResetForm}
+          style={{ padding: '6px 14px', fontSize: '0.82rem', background: '#f1f5f9', color: '#475569', border: '1px solid #cbd5e1', borderRadius: '4px', cursor: 'pointer', fontWeight: 600 }}
+        >
+          Clear Form
+        </button>
       </div>
 
       {errorMessage && (
@@ -191,7 +133,8 @@ export const AdHocPermitForm: React.FC = () => {
             <input
               type="text"
               name="airline_operator"
-              className="form-input disabled-readonly"
+              className="form-input"
+              placeholder="e.g. RwandAir, Qatar Airways, Ethiopian Cargo..."
               value={formData.airline_operator}
               onChange={handleInputChange}
               required
@@ -201,31 +144,15 @@ export const AdHocPermitForm: React.FC = () => {
           {/* Aircraft Registration Number */}
           <div className="form-group">
             <label className="form-label highlight-green">Aircraft Registration Number</label>
-            <select
+            <input
+              type="text"
               name="aircraft_registration"
-              className="form-select"
+              className="form-input"
+              placeholder="Enter aircraft tail number (e.g. 9XR-WN, 5H-ONE, ET-AVT...)"
               value={formData.aircraft_registration}
               onChange={handleInputChange}
               required
-            >
-              <option value="">Select Aircraft Registration...</option>
-              <option value="5HONE">5HONE</option>
-              <option value="9XR-WN">9XR-WN</option>
-              <option value="ET-AVT">ET-AVT</option>
-              <option value="9XR-WP">9XR-WP</option>
-              <option value="5H-TZA">5H-TZA</option>
-              <option value="CUSTOM">Custom Registration...</option>
-            </select>
-            {formData.aircraft_registration === 'CUSTOM' && (
-              <input
-                type="text"
-                placeholder="Enter custom tail number (e.g. N704X)"
-                className="form-input"
-                style={{ marginTop: '0.5rem' }}
-                onChange={(e) => setFormData(prev => ({ ...prev, aircraft_registration: e.target.value }))}
-                required
-              />
-            )}
+            />
           </div>
 
           {/* Electronic Warfare Question */}
@@ -310,7 +237,6 @@ export const AdHocPermitForm: React.FC = () => {
               <option value="Overflight">Overflight</option>
               <option value="Landing & Takeoff">Landing</option>
               <option value="Technical Stop">Technical Stop</option>
-             
             </select>
           </div>
 
@@ -322,6 +248,7 @@ export const AdHocPermitForm: React.FC = () => {
               className="form-select"
               value={formData.clearance_type}
               onChange={handleInputChange}
+              required
             >
               <option value="">Select Clearance Type...</option>
               <option value="Diplomatic">Diplomatic</option>
@@ -339,6 +266,7 @@ export const AdHocPermitForm: React.FC = () => {
               type="text"
               name="purpose_of_flight"
               className="form-input"
+              placeholder="e.g. VIP Transport, Cargo Delivery, Commercial Passenger Transit..."
               value={formData.purpose_of_flight}
               onChange={handleInputChange}
               required
@@ -352,6 +280,7 @@ export const AdHocPermitForm: React.FC = () => {
               type="text"
               name="aircraft_callsign"
               className="form-input"
+              placeholder="e.g. RWB302, ETH884, TGFA01..."
               value={formData.aircraft_callsign}
               onChange={handleInputChange}
               required
@@ -365,6 +294,7 @@ export const AdHocPermitForm: React.FC = () => {
               type="text"
               name="pilot_in_command"
               className="form-input"
+              placeholder="Enter Pilot in Command name..."
               value={formData.pilot_in_command}
               onChange={handleInputChange}
               required
@@ -378,13 +308,14 @@ export const AdHocPermitForm: React.FC = () => {
               type="text"
               name="first_officer"
               className="form-input"
+              placeholder="Enter First Officer name..."
               value={formData.first_officer}
               onChange={handleInputChange}
               required
             />
           </div>
 
-          {/* Additional Flight Routing Info */}
+          {/* Flight Routing, Schedule & Cargo Payload */}
           <div style={{
             background: '#f8fafc',
             border: '1px solid #e2e8f0',
@@ -401,7 +332,7 @@ export const AdHocPermitForm: React.FC = () => {
                 type="text"
                 name="entry_point"
                 className="form-input"
-                placeholder="e.g. OKIMO"
+                placeholder="e.g. OKIMO, KGL, BUJ..."
                 value={formData.entry_point}
                 onChange={handleInputChange}
               />
@@ -412,7 +343,7 @@ export const AdHocPermitForm: React.FC = () => {
                 type="text"
                 name="exit_point"
                 className="form-input"
-                placeholder="e.g. VAKIS"
+                placeholder="e.g. VAKIS, NBO, EBB..."
                 value={formData.exit_point}
                 onChange={handleInputChange}
               />
@@ -436,6 +367,17 @@ export const AdHocPermitForm: React.FC = () => {
                 value={formData.passengers_count}
                 onChange={handleInputChange}
                 min={0}
+              />
+            </div>
+            <div className="form-group" style={{ gridColumn: 'span 2' }}>
+              <label className="form-label">Cargo Details / Payload Summary</label>
+              <input
+                type="text"
+                name="cargo_details"
+                className="form-input"
+                placeholder="e.g. Standard Passenger Baggage, 15 Tons Relief Cargo, None..."
+                value={formData.cargo_details}
+                onChange={handleInputChange}
               />
             </div>
           </div>

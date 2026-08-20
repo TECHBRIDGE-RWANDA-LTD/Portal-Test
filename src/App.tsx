@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { ClientList } from './pages/ClientList';
+import { ClientDetail } from './pages/ClientDetail';
 import { AdHocPermitForm } from './pages/AdHocPermitForm';
 import { SubmissionsList } from './pages/SubmissionsList';
 import { SubmissionDetail } from './pages/SubmissionDetail';
@@ -46,8 +47,9 @@ export const App: React.FC = () => {
         <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login onLoginSuccess={handleLoginSuccess} />} />
         <Route path="/signup" element={user ? <Navigate to="/" replace /> : <Signup onSignupSuccess={handleLoginSuccess} />} />
 
-        {/* 3 Main Navigation Pages */}
+        {/* Main Navigation Pages */}
         <Route path="/client-list" element={<ProtectedRoute user={user}><ClientList /></ProtectedRoute>} />
+        <Route path="/client-list/:id" element={<ProtectedRoute user={user}><ClientDetail /></ProtectedRoute>} />
         <Route path="/form" element={<ProtectedRoute user={user}><AdHocPermitForm /></ProtectedRoute>} />
         <Route path="/submissions" element={<ProtectedRoute user={user}><SubmissionsList /></ProtectedRoute>} />
         <Route path="/submissions/:id" element={<ProtectedRoute user={user}><SubmissionDetail /></ProtectedRoute>} />
