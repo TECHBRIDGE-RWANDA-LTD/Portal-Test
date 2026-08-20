@@ -109,6 +109,28 @@ export const apiService = {
     return res.json();
   },
 
+  updatePermit: async (id: number | string, data: Partial<ClearanceRequest>): Promise<ClearanceRequest> => {
+    const res = await fetch(`${API_BASE_URL}/permits/${id}/`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(Object.values(err).flat().join(', ') || 'Failed to update clearance request');
+    }
+    return res.json();
+  },
+
+  deletePermit: async (id: number | string): Promise<void> => {
+    const res = await fetch(`${API_BASE_URL}/permits/${id}/`, {
+      method: 'DELETE',
+    });
+    if (!res.ok) {
+      throw new Error('Failed to delete clearance request');
+    }
+  },
+
   getStats: async (): Promise<ClearanceStats> => {
     const res = await fetch(`${API_BASE_URL}/stats/`);
     if (!res.ok) throw new Error('Failed to fetch statistics');

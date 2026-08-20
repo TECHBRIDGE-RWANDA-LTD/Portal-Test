@@ -3,13 +3,17 @@ import { Link } from 'react-router-dom';
 import { apiService } from '../services/api';
 import type { ClearanceRequest } from '../types';
 import { StatusBadge } from '../components/StatusBadge';
-import { Search, Filter, RefreshCw, FileText, Award, Eye, ExternalLink } from 'lucide-react';
+import { Search, Filter, RefreshCw, FileText, Award, Eye, ExternalLink, Trash2, AlertTriangle } from 'lucide-react';
 
 export const ClientList: React.FC = () => {
   const [permits, setPermits] = useState<ClearanceRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
+
+  // Delete state
+  const [deleteTarget, setDeleteTarget] = useState<ClearanceRequest | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const fetchData = async () => {
     setLoading(true);
@@ -30,6 +34,20 @@ export const ClientList: React.FC = () => {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     fetchData();
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!deleteTarget) return;
+    setDeleteLoading(true);
+    try {
+      await apiService.deletePermit(deleteTarget.id);
+      setDeleteTarget(null);
+      fetchData();
+    } catch (err: any) {
+      alert(err.message || 'Failed to delete permit request');
+    } finally {
+      setDeleteLoading(false);
+    }
   };
 
   return (
@@ -205,23 +223,45 @@ export const ClientList: React.FC = () => {
                   </td>
 
                   <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
-                    <Link
-                      to={`/client-list/${permit.id}`}
-                      style={{
-                        padding: '6px 12px',
-                        background: '#e0f2fe',
-                        color: '#0369a1',
-                        borderRadius: '4px',
-                        textDecoration: 'none',
-                        fontSize: '0.82rem',
-                        fontWeight: 600,
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '0.3rem'
-                      }}
-                    >
-                      <Eye size={14} /> View Details
-                    </Link>
+                    <div style={{ display: 'inline-flex', gap: '0.35rem', alignItems: 'center' }}>
+                      <Link
+                        to={`/client-list/${permit.id}`}
+                        style={{
+                          padding: '6px 12px',
+                          background: '#e0f2fe',
+                          color: '#0369a1',
+                          borderRadius: '4px',
+                          textDecoration: 'none',
+                          fontSize: '0.82rem',
+                          fontWeight: 600,
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.3rem'
+                        }}
+                      >
+                        <Eye size={14} /> View Details
+                      </Link>
+
+                      <button
+                        onClick={() => setDeleteTarget(permit)}
+                        style={{
+                          padding: '6px 10px',
+                          background: '#f1f5f9',
+                          color: '#dc2626',
+                          border: '1px solid #fca5a5',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          fontSize: '0.82rem',
+                          fontWeight: 600,
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.3rem'
+                        }}
+                        title="Delete Permit Application"
+                      >
+                        <Trash2 size={14} /> Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))
@@ -229,6 +269,66 @@ export const ClientList: React.FC = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {deleteTarget && (
+        <div className="modal-overlay">
+          <div className="modal-content" style={{ maxWidth: '480px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#dc2626' }}>
+              <AlertTriangle size={32} />
+              <div>
+                <h3 style={{ fontSize: '1.2rem', fontWeight: 800 }}>Confirm Permit Deletion</h3>
+                <p style={{ fontSize: '0.85rem', color: '#64748b', marginTop: '0.2rem' }}>
+                  This will permanently remove the clearance request from the database.
+                </p>
+              </div>
+            </div>
+
+            <div style={{
+              background: '#f8fafc',
+              border: '1px solid #e2e8f0',
+              borderRadius: '6px',
+              padding: '1rem',
+              fontSize: '0.88rem'
+            }}>
+              <div><strong>Reference Code:</strong> <span style={{ fontFamily: 'monospace', color: '#0284c7' }}>{deleteTarget.reference_number}</span></div>
+              <div><strong>Airline / Operator:</strong> {deleteTarget.airline_operator}</div>
+              <div><strong>Aircraft Registration:</strong> {deleteTarget.aircraft_registration} ({deleteTarget.aircraft_callsign})</div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end' }}>
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={() => setDeleteTarget(null)}
+                disabled={deleteLoading}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleDeleteConfirm}
+                disabled={deleteLoading}
+                style={{
+                  padding: '8px 16px',
+                  background: '#dc2626',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '4px',
+                  fontWeight: 700,
+                  fontSize: '0.88rem',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.4rem'
+                }}
+              >
+                <Trash2 size={16} /> {deleteLoading ? 'Deleting...' : 'Delete Application'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
