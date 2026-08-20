@@ -13,19 +13,19 @@ export const ApiInspector: React.FC = () => {
 
 url = "https://clever-playfulness-production-06cd.up.railway.app/api/permits/"
 payload = {
-    "airline_operator": "TANZANIA GOVERNMENT FLIGHT AGENCY.",
-    "aircraft_registration": "5HONE",
+    "airline_operator": "",
+    "aircraft_registration": "",
     "has_electronic_warfare": False,
     "has_aircraft_modifications": False,
-    "clearance_category": "Overflight",
-    "clearance_type": "Ad-Hoc",
-    "purpose_of_flight": "Automated Verification Test Flight",
-    "aircraft_callsign": "TGFA01",
-    "pilot_in_command": "Capt. Joseph Mukasa",
-    "first_officer": "F/O Sarah Hassan",
-    "entry_point": "OKIMO",
-    "exit_point": "VAKIS",
-    "passengers_count": 10
+    "clearance_category": "",
+    "clearance_type": "",
+    "purpose_of_flight": "",
+    "aircraft_callsign": "",
+    "pilot_in_command": "",
+    "first_officer": "",
+    "entry_point": "",
+    "exit_point": "",
+    "passengers_count": 0
 }
 
 response = requests.post(url, json=payload)
@@ -37,7 +37,7 @@ print("Status:", data["status"])`
       title: 'Python (requests) - Check Response Status by Reference Code',
       code: `import requests
 
-reference_code = "RCAA-2026-149634"
+reference_code = ""
 url = f"https://clever-playfulness-production-06cd.up.railway.app/api/permits/?search={reference_code}"
 
 res = requests.get(url).json()

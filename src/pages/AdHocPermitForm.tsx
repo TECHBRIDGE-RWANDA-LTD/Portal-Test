@@ -7,23 +7,23 @@ import { CheckCircle, Code, ArrowRight } from 'lucide-react';
 
 export const AdHocPermitForm: React.FC = () => {
   const [formData, setFormData] = useState<ClearanceFormData>({
-    airline_operator: 'TANZANIA GOVERNMENT FLIGHT AGENCY.',
-    aircraft_registration: '5HONE',
+    airline_operator: '',
+    aircraft_registration: '',
     has_electronic_warfare: false,
     electronic_warfare_details: '',
     has_aircraft_modifications: false,
     aircraft_modifications_details: '',
-    clearance_category: 'Overflight',
-    clearance_type: 'Ad-Hoc',
-    purpose_of_flight: 'State Flight & Diplomatic Transport',
-    aircraft_callsign: 'TGFA01',
-    pilot_in_command: 'Capt. Joseph Mukasa',
-    first_officer: 'F/O Sarah Hassan',
-    entry_point: 'OKIMO',
-    exit_point: 'VAKIS',
-    flight_date: new Date().toISOString().split('T')[0],
-    passengers_count: 10,
-    cargo_details: 'Diplomatic luggage & VIP gear'
+    clearance_category: '',
+    clearance_type: '',
+    purpose_of_flight: '',
+    aircraft_callsign: '',
+    pilot_in_command: '',
+    first_officer: '',
+    entry_point: '',
+    exit_point: '',
+    flight_date: '',
+    passengers_count: 0,
+    cargo_details: ''
   });
 
   const [loading, setLoading] = useState(false);
@@ -208,6 +208,7 @@ export const AdHocPermitForm: React.FC = () => {
               onChange={handleInputChange}
               required
             >
+              <option value="">Select Aircraft Registration...</option>
               <option value="5HONE">5HONE</option>
               <option value="9XR-WN">9XR-WN</option>
               <option value="ET-AVT">ET-AVT</option>
@@ -305,6 +306,7 @@ export const AdHocPermitForm: React.FC = () => {
               onChange={handleInputChange}
               required
             >
+              <option value="">Select Clearance Category...</option>
               <option value="Overflight">Overflight</option>
               <option value="Landing & Takeoff">Landing</option>
               <option value="Technical Stop">Technical Stop</option>
@@ -321,6 +323,7 @@ export const AdHocPermitForm: React.FC = () => {
               value={formData.clearance_type}
               onChange={handleInputChange}
             >
+              <option value="">Select Clearance Type...</option>
               <option value="Diplomatic">Diplomatic</option>
               <option value="Cargo">Cargo</option>
               <option value="Commercial">Commercial</option>
