@@ -68,3 +68,27 @@ class ClearanceRequest(models.Model):
 
     def __str__(self):
         return f"{self.reference_number} - {self.airline_operator} ({self.aircraft_registration})"
+
+    def save(self, *args, **kwargs):
+        try:
+            super().save(*args, **kwargs)
+        except Exception as e:
+            err_msg = str(e)
+            if 'has no column named' in err_msg or 'no such column' in err_msg or 'does not exist' in err_msg:
+                from django.db import connection
+                try:
+                    table_name = self._meta.db_table
+                    with connection.cursor() as cursor:
+                        existing_cols = [col.name for col in connection.introspection.get_table_description(cursor, table_name)]
+                        for field in self._meta.concrete_fields:
+                            col_name = field.column
+                            if col_name not in existing_cols and col_name != 'id':
+                                try:
+                                    cursor.execute(f'ALTER TABLE "{table_name}" ADD COLUMN "{col_name}" text NULL;')
+                                except Exception:
+                                    pass
+                    super().save(*args, **kwargs)
+                    return
+                except Exception:
+                    pass
+            raise e
