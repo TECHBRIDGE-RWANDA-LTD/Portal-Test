@@ -23,8 +23,8 @@ export interface ClearanceRequest {
   clearance_type: string;
   purpose_of_flight: string;
   aircraft_callsign: string;
-  pilot_in_command: string;
-  first_officer: string;
+  pilot_in_command?: string | null;
+  first_officer?: string | null;
   entry_point?: string | null;
   exit_point?: string | null;
   flight_date?: string | null;
@@ -68,8 +68,8 @@ export interface ClearanceFormData {
   clearance_type: string;
   purpose_of_flight: string;
   aircraft_callsign: string;
-  pilot_in_command: string;
-  first_officer: string;
+  pilot_in_command?: string;
+  first_officer?: string;
   entry_point: string;
   exit_point: string;
   flight_date: string;

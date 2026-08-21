@@ -421,7 +421,6 @@ export const AdHocPermitForm: React.FC = () => {
                       placeholder="Pilot Name..."
                       value={formData.pilot_in_command}
                       onChange={handleInputChange}
-                      required
                     />
                   </div>
                   <div className="form-group">
@@ -433,7 +432,6 @@ export const AdHocPermitForm: React.FC = () => {
                       placeholder="First Officer Name..."
                       value={formData.first_officer}
                       onChange={handleInputChange}
-                      required
                     />
                   </div>
                 </div>
