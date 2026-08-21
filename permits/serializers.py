@@ -47,6 +47,14 @@ class ClearanceRequestSerializer(serializers.ModelSerializer):
             'first_officer': {'required': False, 'allow_null': True, 'allow_blank': True},
         }
 
+    def to_internal_value(self, data):
+        ret = super().to_internal_value(data)
+        if ret.get('pilot_in_command') is None:
+            ret['pilot_in_command'] = ''
+        if ret.get('first_officer') is None:
+            ret['first_officer'] = ''
+        return ret
+
     def create(self, validated_data):
         try:
             return super().create(validated_data)

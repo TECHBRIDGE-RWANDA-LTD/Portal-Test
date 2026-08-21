@@ -26,8 +26,8 @@ class ClearanceRequest(models.Model):
     clearance_type = models.CharField(max_length=100, default='Ad-Hoc')
     purpose_of_flight = models.TextField()
     aircraft_callsign = models.CharField(max_length=100)
-    pilot_in_command = models.CharField(max_length=150, blank=True, null=True)
-    first_officer = models.CharField(max_length=150, blank=True, null=True)
+    pilot_in_command = models.CharField(max_length=150, blank=True, null=True, default='')
+    first_officer = models.CharField(max_length=150, blank=True, null=True, default='')
     entry_point = models.CharField(max_length=100, blank=True, null=True)
     exit_point = models.CharField(max_length=100, blank=True, null=True)
     flight_date = models.DateField(blank=True, null=True)
@@ -70,15 +70,30 @@ class ClearanceRequest(models.Model):
         return f"{self.reference_number} - {self.airline_operator} ({self.aircraft_registration})"
 
     def save(self, *args, **kwargs):
+        if self.pilot_in_command is None:
+            self.pilot_in_command = ''
+        if self.first_officer is None:
+            self.first_officer = ''
+
         try:
             super().save(*args, **kwargs)
         except Exception as e:
             err_msg = str(e)
-            if 'has no column named' in err_msg or 'no such column' in err_msg or 'does not exist' in err_msg:
-                from django.db import connection
-                try:
-                    table_name = self._meta.db_table
-                    with connection.cursor() as cursor:
+            from django.db import connection
+            try:
+                table_name = self._meta.db_table
+                with connection.cursor() as cursor:
+                    if 'violates not-null constraint' in err_msg or 'NOT NULL' in err_msg:
+                        try:
+                            cursor.execute(f'ALTER TABLE "{table_name}" ALTER COLUMN "pilot_in_command" DROP NOT NULL;')
+                        except Exception:
+                            pass
+                        try:
+                            cursor.execute(f'ALTER TABLE "{table_name}" ALTER COLUMN "first_officer" DROP NOT NULL;')
+                        except Exception:
+                            pass
+
+                    if 'has no column named' in err_msg or 'no such column' in err_msg or 'does not exist' in err_msg:
                         existing_cols = [col.name for col in connection.introspection.get_table_description(cursor, table_name)]
                         for field in self._meta.concrete_fields:
                             col_name = field.column
@@ -87,8 +102,9 @@ class ClearanceRequest(models.Model):
                                     cursor.execute(f'ALTER TABLE "{table_name}" ADD COLUMN "{col_name}" text NULL;')
                                 except Exception:
                                     pass
-                    super().save(*args, **kwargs)
-                    return
-                except Exception:
-                    pass
+
+                super().save(*args, **kwargs)
+                return
+            except Exception:
+                pass
             raise e
