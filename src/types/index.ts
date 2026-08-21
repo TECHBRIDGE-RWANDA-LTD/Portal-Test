@@ -59,6 +59,23 @@ export interface ClearanceFormData {
   flight_date: string;
   passengers_count: number;
   cargo_details: string;
+  // Extended section fields for sidebar form navigation
+  payment_mode?: string;
+  payment_account_ref?: string;
+  billing_name?: string;
+  billing_address?: string;
+  billing_city_country?: string;
+  billing_email?: string;
+  billing_tax_id?: string;
+  passenger_manifest_summary?: string;
+  departure_airport?: string;
+  arrival_airport?: string;
+  stopover_airport?: string;
+  stopover_purpose?: string;
+  airway_routes?: string;
+  uploaded_airworthiness_cert?: string;
+  uploaded_aoc_cert?: string;
+  uploaded_insurance_cert?: string;
 }
 
 export interface ClearanceStats {

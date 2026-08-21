@@ -384,3 +384,220 @@ body {
   flex-direction: column;
   gap: 1.25rem;
 }
+
+/* Multi-Section Sidebar Form Layout matching user screenshot */
+html {
+  scroll-behavior: smooth;
+}
+
+.rcaa-form-layout {
+  display: flex;
+  gap: 1.75rem;
+  align-items: flex-start;
+}
+
+.rcaa-sidebar {
+  width: 270px;
+  background-color: #1e293b;
+  border-radius: 6px;
+  overflow: hidden;
+  position: sticky;
+  top: 80px;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-md);
+  border: 1px solid #334155;
+}
+
+.rcaa-sidebar-header {
+  background-color: #1a2332;
+  color: #ffffff;
+  padding: 14px 18px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #334155;
+  cursor: pointer;
+  user-select: none;
+}
+
+.rcaa-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+}
+
+.rcaa-sidebar-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px;
+  color: #94a3b8;
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background: transparent;
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  width: 100%;
+  text-align: left;
+}
+
+.rcaa-sidebar-link:hover {
+  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.rcaa-sidebar-link.active {
+  color: #ffffff;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.1);
+  border-left-color: #00bcd4;
+}
+
+.rcaa-sidebar-submit-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 12px 18px;
+  margin: 0.5rem 0;
+  color: #38bdf8;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  background: rgba(56, 189, 248, 0.08);
+  border: none;
+  border-top: 1px solid #334155;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: all 0.2s;
+}
+
+.rcaa-sidebar-submit-btn:hover {
+  background: rgba(56, 189, 248, 0.2);
+  color: #ffffff;
+}
+
+.rcaa-form-main-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.rcaa-form-section {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 1.5rem;
+  margin-bottom: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  scroll-margin-top: 90px;
+}
+
+.rcaa-form-section:hover {
+  border-color: #94a3b8;
+}
+
+.rcaa-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.rcaa-section-title-box {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.rcaa-section-icon {
+  color: #0284c7;
+  display: flex;
+  align-items: center;
+}
+
+.rcaa-section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.rcaa-section-badge {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.section-flow-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.btn-flow-prev {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn-flow-prev:hover {
+  background: #e2e8f0;
+}
+
+.btn-flow-next {
+  background: #0284c7;
+  color: #ffffff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn-flow-next:hover {
+  background: #0369a1;
+}
+
+.file-upload-box {
+  border: 2px dashed #cbd5e1;
+  border-radius: 6px;
+  padding: 1.25rem;
+  text-align: center;
+  background: #f8fafc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.file-upload-box:hover {
+  border-color: #0284c7;
+  background: #f0f9ff;
+}
+
