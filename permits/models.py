@@ -34,6 +34,24 @@ class ClearanceRequest(models.Model):
     passengers_count = models.IntegerField(default=0)
     cargo_details = models.TextField(blank=True, null=True)
     
+    # Section Data Fields
+    payment_mode = models.CharField(max_length=100, blank=True, null=True, default='Credit Card')
+    payment_account_ref = models.CharField(max_length=100, blank=True, null=True)
+    billing_name = models.CharField(max_length=255, blank=True, null=True)
+    billing_address = models.TextField(blank=True, null=True)
+    billing_city_country = models.CharField(max_length=255, blank=True, null=True)
+    billing_email = models.CharField(max_length=255, blank=True, null=True)
+    billing_tax_id = models.CharField(max_length=100, blank=True, null=True)
+    passenger_manifest_summary = models.TextField(blank=True, null=True)
+    departure_airport = models.CharField(max_length=100, blank=True, null=True)
+    arrival_airport = models.CharField(max_length=100, blank=True, null=True)
+    stopover_airport = models.CharField(max_length=100, blank=True, null=True)
+    stopover_purpose = models.TextField(blank=True, null=True)
+    airway_routes = models.TextField(blank=True, null=True)
+    uploaded_airworthiness_cert = models.CharField(max_length=255, blank=True, null=True)
+    uploaded_aoc_cert = models.CharField(max_length=255, blank=True, null=True)
+    uploaded_insurance_cert = models.CharField(max_length=255, blank=True, null=True)
+    
     # Automation & Admin Action Fields
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='PENDING')
     response_notes = models.TextField(blank=True, default='Clearance request submitted. Awaiting CAA verification.')
