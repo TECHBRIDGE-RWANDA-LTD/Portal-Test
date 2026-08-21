@@ -42,6 +42,10 @@ class ClearanceRequestSerializer(serializers.ModelSerializer):
         model = ClearanceRequest
         fields = '__all__'
         read_only_fields = ('reference_number', 'created_at', 'updated_at')
+        extra_kwargs = {
+            'pilot_in_command': {'required': False, 'allow_null': True, 'allow_blank': True},
+            'first_officer': {'required': False, 'allow_null': True, 'allow_blank': True},
+        }
 
     def create(self, validated_data):
         try:
