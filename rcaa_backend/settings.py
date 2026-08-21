@@ -87,22 +87,22 @@ TEMPLATES = [
 WSGI_APPLICATION = "rcaa_backend.wsgi.application"
 
 
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+# Database - Railway PostgreSQL
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
-db_url = os.environ.get("DATABASE_URL") or os.environ.get("DATABASE_PUBLIC_URL") or os.environ.get("DATABASE_PRIVATE_URL")
+if not DATABASE_URL:
+    raise RuntimeError(
+        "DATABASE_URL is not configured. "
+        "Django will not start without the Railway PostgreSQL database."
+    )
 
-if db_url:
-    DATABASES = {
-        "default": dj_database_url.parse(db_url, conn_max_age=600, ssl_require=False)
-    }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
+DATABASES = {
+    "default": dj_database_url.parse(
+        DATABASE_URL,
+        conn_max_age=600,
+        ssl_require=False,
+    )
+}
 
 
 # Password validation
