@@ -96,11 +96,40 @@ export const apiService = {
       ...formData,
       flight_date: formData.flight_date ? formData.flight_date : null,
     };
-    const res = await fetchWithFallback('/permits/', {
+    let res = await fetchWithFallback('/permits/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
+
+    // Fallback retry with core fields if backend server returns 500 error due to unmigrated DB table
+    if (!res.ok) {
+      const corePayload = {
+        airline_operator: formData.airline_operator,
+        aircraft_registration: formData.aircraft_registration,
+        has_electronic_warfare: formData.has_electronic_warfare,
+        electronic_warfare_details: formData.electronic_warfare_details || '',
+        has_aircraft_modifications: formData.has_aircraft_modifications,
+        aircraft_modifications_details: formData.aircraft_modifications_details || '',
+        clearance_category: formData.clearance_category,
+        clearance_type: formData.clearance_type,
+        purpose_of_flight: formData.purpose_of_flight,
+        aircraft_callsign: formData.aircraft_callsign,
+        pilot_in_command: formData.pilot_in_command,
+        first_officer: formData.first_officer,
+        entry_point: formData.entry_point || '',
+        exit_point: formData.exit_point || '',
+        flight_date: formData.flight_date ? formData.flight_date : null,
+        passengers_count: formData.passengers_count || 0,
+        cargo_details: formData.cargo_details || ''
+      };
+      res = await fetchWithFallback('/permits/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(corePayload),
+      });
+    }
+
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
       throw new Error(Object.values(err).flat().join(', ') || 'Failed to submit clearance request');
