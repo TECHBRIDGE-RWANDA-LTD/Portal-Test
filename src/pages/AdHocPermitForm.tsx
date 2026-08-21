@@ -5,7 +5,6 @@ import type { ClearanceFormData, ClearanceRequest } from '../types';
 import { StatusBadge } from '../components/StatusBadge';
 import {
   CheckCircle,
-  Code,
   ArrowRight,
   ArrowLeft,
   ChevronDown,
