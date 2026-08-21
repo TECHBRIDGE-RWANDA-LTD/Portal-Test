@@ -978,59 +978,65 @@ export const AdHocPermitForm: React.FC = () => {
         </div>
       </div>
 
-      {/* Response Modal / Automation Inspector */}
+      {/* Clean Success Modal */}
       {showResponseModal && submittedRequest && (
         <div className="modal-overlay">
-          <div className="modal-content" style={{ maxWidth: '750px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#047857' }}>
-              <CheckCircle size={28} />
+          <div className="modal-content" style={{ maxWidth: '580px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.88rem', color: '#047857' }}>
+              <div style={{ background: '#dcfce7', borderRadius: '50%', padding: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <CheckCircle size={32} style={{ color: '#16a34a' }} />
+              </div>
               <div>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 700 }}>Data Transmitted & Verified!</h3>
-                <p style={{ fontSize: '0.88rem', color: '#64748b' }}>
-                  Clearance Request successfully logged in Django backend.
+                <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>
+                  Application Submitted Successfully!
+                </h3>
+                <p style={{ fontSize: '0.88rem', color: '#64748b', margin: '0.2rem 0 0 0' }}>
+                  Your clearance request has been officially recorded and queued for RCAA review.
                 </p>
               </div>
             </div>
 
             <div style={{
               background: '#f8fafc',
-              border: '1px solid #e2e8f0',
+              border: '1px solid #cbd5e1',
               borderRadius: '6px',
-              padding: '1rem',
+              padding: '1.25rem',
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
-              gap: '0.75rem',
+              gap: '1rem',
               fontSize: '0.9rem'
             }}>
               <div>
-                <span style={{ color: '#64748b', fontSize: '0.8rem', display: 'block' }}>Reference Code:</span>
-                <span style={{ fontWeight: 800, color: '#0284c7', fontSize: '1.1rem', fontFamily: 'monospace' }}>
+                <span style={{ color: '#64748b', fontSize: '0.78rem', display: 'block', textTransform: 'uppercase', fontWeight: 600 }}>Reference Code:</span>
+                <span style={{ fontWeight: 800, color: '#0284c7', fontSize: '1.15rem', fontFamily: 'monospace' }}>
                   {submittedRequest.reference_number}
                 </span>
               </div>
-              <div>
-                <span style={{ color: '#64748b', fontSize: '0.8rem', display: 'block' }}>Verification Status:</span>
-                <StatusBadge status={submittedRequest.status} />
-              </div>
-              <div>
-                <span style={{ color: '#64748b', fontSize: '0.8rem', display: 'block' }}>Operator:</span>
-                <strong>{submittedRequest.airline_operator}</strong>
-              </div>
-              <div>
-                <span style={{ color: '#64748b', fontSize: '0.8rem', display: 'block' }}>Aircraft Tail / Callsign:</span>
-                <strong>{submittedRequest.aircraft_registration} ({submittedRequest.aircraft_callsign})</strong>
-              </div>
-            </div>
 
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#334155', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <Code size={16} /> Automation API JSON Response Payload:
-                </span>
-                <span style={{ fontSize: '0.75rem', color: '#10b981', fontWeight: 600 }}>HTTP 201 Created</span>
+              <div>
+                <span style={{ color: '#64748b', fontSize: '0.78rem', display: 'block', textTransform: 'uppercase', fontWeight: 600 }}>Verification Status:</span>
+                <div style={{ marginTop: '0.2rem' }}>
+                  <StatusBadge status={submittedRequest.status} />
+                </div>
               </div>
-              <div className="json-inspector-box" style={{ maxHeight: '200px' }}>
-                {JSON.stringify(submittedRequest, null, 2)}
+
+              <div>
+                <span style={{ color: '#64748b', fontSize: '0.78rem', display: 'block', textTransform: 'uppercase', fontWeight: 600 }}>Airline / Operator:</span>
+                <strong style={{ color: '#0f172a', fontSize: '0.95rem' }}>{submittedRequest.airline_operator}</strong>
+              </div>
+
+              <div>
+                <span style={{ color: '#64748b', fontSize: '0.78rem', display: 'block', textTransform: 'uppercase', fontWeight: 600 }}>Aircraft / Callsign:</span>
+                <strong style={{ color: '#0f172a', fontSize: '0.95rem' }}>
+                  {submittedRequest.aircraft_registration} ({submittedRequest.aircraft_callsign})
+                </strong>
+              </div>
+
+              <div style={{ gridColumn: 'span 2', borderTop: '1px dashed #cbd5e1', paddingTop: '0.75rem' }}>
+                <span style={{ color: '#64748b', fontSize: '0.78rem', display: 'block', textTransform: 'uppercase', fontWeight: 600 }}>Flight Category:</span>
+                <span style={{ color: '#334155', fontWeight: 600 }}>
+                  {submittedRequest.clearance_category} ({submittedRequest.clearance_type})
+                </span>
               </div>
             </div>
 
@@ -1039,16 +1045,17 @@ export const AdHocPermitForm: React.FC = () => {
                 type="button"
                 className="btn-secondary"
                 onClick={() => setShowResponseModal(false)}
+                style={{ fontSize: '0.88rem', padding: '9px 18px' }}
               >
-                Close & Submit Another
+                Submit Another Application
               </button>
 
               <Link
                 to={`/submissions/${submittedRequest.id}`}
                 className="btn-primary-rcaa"
-                style={{ width: 'auto', margin: 0, padding: '8px 16px', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+                style={{ width: 'auto', margin: 0, padding: '9px 18px', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.88rem' }}
               >
-                Inspect & Respond to Data <ArrowRight size={16} />
+                View Submitted Application Details <ArrowRight size={16} />
               </Link>
             </div>
           </div>
