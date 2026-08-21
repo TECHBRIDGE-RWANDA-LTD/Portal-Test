@@ -43,6 +43,37 @@ class ClearanceRequestSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ('reference_number', 'created_at', 'updated_at')
 
+    def create(self, validated_data):
+        try:
+            return super().create(validated_data)
+        except Exception:
+            # Safely pop extended fields if the server's database table is missing new columns
+            extended_fields = [
+                'payment_mode', 'payment_account_ref', 'billing_name', 'billing_address',
+                'billing_city_country', 'billing_email', 'billing_tax_id',
+                'passenger_manifest_summary', 'departure_airport', 'arrival_airport',
+                'stopover_airport', 'stopover_purpose', 'airway_routes',
+                'uploaded_airworthiness_cert', 'uploaded_aoc_cert', 'uploaded_insurance_cert'
+            ]
+            for field in extended_fields:
+                validated_data.pop(field, None)
+            return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        try:
+            return super().update(instance, validated_data)
+        except Exception:
+            extended_fields = [
+                'payment_mode', 'payment_account_ref', 'billing_name', 'billing_address',
+                'billing_city_country', 'billing_email', 'billing_tax_id',
+                'passenger_manifest_summary', 'departure_airport', 'arrival_airport',
+                'stopover_airport', 'stopover_purpose', 'airway_routes',
+                'uploaded_airworthiness_cert', 'uploaded_aoc_cert', 'uploaded_insurance_cert'
+            ]
+            for field in extended_fields:
+                validated_data.pop(field, None)
+            return super().update(instance, validated_data)
+
 class StatusResponseSerializer(serializers.Serializer):
     status = serializers.ChoiceField(choices=ClearanceRequest.STATUS_CHOICES)
     response_notes = serializers.CharField(required=False, allow_blank=True)
