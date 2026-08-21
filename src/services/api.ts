@@ -56,10 +56,14 @@ export const apiService = {
   },
 
   submitPermit: async (formData: ClearanceFormData): Promise<ClearanceRequest> => {
+    const payload = {
+      ...formData,
+      flight_date: formData.flight_date ? formData.flight_date : null,
+    };
     const res = await fetch(`${API_BASE_URL}/permits/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(payload),
     });
     if (!res.ok) {
       const err = await res.json();
